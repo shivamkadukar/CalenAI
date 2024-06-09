@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>CalenAI</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <form id="form1">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="monthSelect">Month:</label>
+                    <input type="month" class="form-control" id="monthSelect" name="month">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email IDs:</label>
+                <div id="emailInputs">
+                    <!-- {% for email in initial_emails %} -->
+                    <input type="email" class="form-control mb-2" name="email_ids[]" value=""
+                        placeholder="Enter email ID" multiple>
+                    <!-- {% endfor %} -->
+                </div>
+            </div>
+            <div class="form-row">
+                <button id="submitButton" type="submit" class="btn btn-primary"
+                    style="margin-bottom: 10px;">Submit</button>
+            </div>
+            <div class="form-row">
+                <button id="downloadButton" class="btn btn-success">Download File</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function toggleButtonState(isLoading) {
+            const submitButton = document.getElementById('submitButton');
+            if (isLoading) {
+                // Change to loading state
+                submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Generating...`;
+                submitButton.disabled = true;
+                submitButton.type = 'button'; // Change to regular button to prevent form submission
+            } else {
+                // Change back to normal state
+                submitButton.innerHTML = 'Submit';
+                submitButton.disabled = false;
+                submitButton.type = 'submit'; // Change back to submit button
+            }
+        }
+    </script>
+    <script>
+        var downloadButton = document.getElementById('downloadButton');
+        downloadButton.disabled = true;
+
+        document.getElementById('form1').addEventListener('submit', function (e) {
+            e.preventDefault();
+        });
+
+        var submitButton = document.getElementById('submitButton');
+        submitButton.onclick = function () {
+
+            // Show loader
+            toggleButtonState(true);
+
+            // Get form data
+            var selectedMonth = document.getElementById('monthSelect').value;
+            var selectedYear = document.getElementById('yearSelect').value;
+            var emailInputs = document.querySelectorAll('[name="email_ids[]"]');
+            var emailIds = Array.from(emailInputs).map(input => input.value);
+
+            // AJAX request to Flask backend
+            fetch('/generate-file', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ month: selectedMonth, year: selectedYear, emailIds: emailIds }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loader
+                    toggleButtonState(false);
+
+                    // Show download button with the file link
+                    downloadButton.disabled = false;
+                    downloadButton.onclick = function () {
+                        window.open('/download?file=' + data.filePath, '_blank');
+                    };
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        };
+    </script>
+</body>
+
+</html>
