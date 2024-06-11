@@ -1,0 +1,10 @@
+{
+    "openai_model": "gpt-4-1106-preview",
+    "internal_email_domains": [
+        "gmail.com",
+        "yahoo.com"
+***REMOVED***
+    "prompts": {
+        "event_filter": "Which of the following meetings are likely to be new customer meetings and not interviews or repeatative update meetings from existing clients? Respond with a json array of the meeting indexes of the given list in the following syntax '{\"new_customer_meetings\": [0, 2, 9]}'."
+    }
+}
