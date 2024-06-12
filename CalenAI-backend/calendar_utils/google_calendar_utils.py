@@ -1,8 +1,6 @@
 import os
 import datetime
-from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import openai
@@ -14,13 +12,10 @@ with open('gpt_prompts/classify_meetings_prompt.json', 'r') as file:
     config = json.load(file)
 
 openai.api_key = os.getenv("OPENAI_KEY")
+token_file_path = os.getenv("TOKEN_FILE_PATH")
+scopes = os.getenv("SCOPES")
+
 openai_model = config['openai_model']
-
-# If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
-TOKEN_FILE_PATH = 'auth/token.json'
-CREDENTIALS_FILE_PATH = 'auth/oauth_credentials.json'
-
 internal_email_domains = tuple(config['internal_email_domains'])
 calendar_ids = []
 
@@ -46,19 +41,8 @@ def get_external_attendees(year, month, calendar_ids):
 def get_events(year, month, calendar_ids):
     events = {}
     creds = None
-    if os.path.exists(TOKEN_FILE_PATH):
-        creds = Credentials.from_authorized_user_file(TOKEN_FILE_PATH, SCOPES)
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                CREDENTIALS_FILE_PATH, SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open(TOKEN_FILE_PATH, 'w') as token:
-            token.write(creds.to_json())
-
+    if os.path.exists(token_file_path):
+        creds = Credentials.from_authorized_user_file(token_file_path, SCOPES)
     try:
         start_date = datetime.datetime(int(year), int(month), 1)
         end_date = start_date + datetime.timedelta(days=31)
