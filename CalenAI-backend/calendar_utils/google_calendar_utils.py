@@ -42,7 +42,7 @@ def get_events(year, month, calendar_ids):
     events = {}
     creds = None
     if os.path.exists(token_file_path):
-        creds = Credentials.from_authorized_user_file(token_file_path, SCOPES)
+        creds = Credentials.from_authorized_user_file(token_file_path, scopes)
     try:
         start_date = datetime.datetime(int(year), int(month), 1)
         end_date = start_date + datetime.timedelta(days=31)
