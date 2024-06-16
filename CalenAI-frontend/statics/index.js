@@ -31,7 +31,7 @@ submitButton.onclick = function () {
     var emailIds = Array.from(emailInputs).map(input => input.value);
 
     // AJAX request to Flask backend
-    fetch('http://localhost:5000/generate-file', {
+    fetch('/api/generate-file', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ submitButton.onclick = function () {
             // Show download button with the file link
             downloadButton.disabled = false;
             downloadButton.onclick = function () {
-                window.open('http://localhost:5000/download?file=' + data.filePath, '_blank');
+                window.open('/api/download?file=' + data.filePath, '_blank');
             };
         })
         .catch((error) => {
