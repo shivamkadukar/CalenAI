@@ -6,7 +6,7 @@ from flask_cors import CORS
 from calendar_utils.google_calendar_utils import get_unique_client_meetings
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5500"}})
+CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5000"}})
 
 
 def print_results(unique_client_meetings):
