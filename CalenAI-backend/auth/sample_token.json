@@ -1,0 +1,8 @@
+{
+    "access_token": "ya29.a0ARrdaM9u...",
+    "expires_in": 3599,
+    "refresh_token": "1//0gB...",
+    "scope": "https://www.googleapis.com/auth/calendar.readonly",
+    "token_type": "Bearer",
+    "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6..."
+}
