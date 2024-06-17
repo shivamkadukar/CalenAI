@@ -33,14 +33,20 @@ python google_calendar_token_generation.py
 Give the necessary access to download `token.json` file. 
 Store the downloaded file to `CalenAI-backend\auth\token.json`
 
-## Local Run/Debug
+<!-- ## Local Run/Debug
 Open `index.html` in `CalenAI-frontend`. Start a live server using vscode extension.
 
 Run and Debug `CalenAI-backend`. 
-For local run, CORS policy has for backend has been set to allow requests from http://127.0.0.1:5500/
+For local run, CORS policy has for backend has been set to allow requests from http://127.0.0.1:5500/ -->
+with the changes made for hosting via docker it is no longer supported to run locally. I will be adding it into a separate branch or will work on resolving the local run issue. Read section below for docker hosting.
 
 ## Local Hosting with Docker
-Work in progress
+Run the following docker compose command to build the frontend and backend containers.
+```bash
+docker compose up --build
+```
+
+This will create the docker images and start the CalenAI container service with a frontend and backend container and run this container.
 
 ## Hosting on AWS
 Work in progress
@@ -48,5 +54,5 @@ Work in progress
 ### Project Roadmap
 - [x] Added Support for run the applicatin locally in debug mode
 - [x] Added Support for getting meeting insights from google calendar
-- [ ] Local Hosting with Docker
+- [x] Local Hosting with Docker
 - [ ] Hosting on AWS
