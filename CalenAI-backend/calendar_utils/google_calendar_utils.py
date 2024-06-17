@@ -127,7 +127,7 @@ def get_events_with_external_attendees(year, month, calendar_ids):
                         'meeting_summary': event['summary'],
                         'attendees': [attendee['email'] for attendee in event['attendees']],
                         'organizer': event['organizer']['email'],
-                        'datetime': f***REMOVED***event['start']['dateTime']} {event['start']['timeZone'] "sample token.json"
+                        'datetime': f"{event['start']['dateTime']} {event['start']['timeZone']"
                     })
 
         external_calendar_events[calendar_id] = external_events
